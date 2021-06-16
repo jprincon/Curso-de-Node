@@ -1,0 +1,21 @@
+{
+    "name": "03-bases-node",
+    "version": "0.0.1",
+    "description": "Tabla de multiplicar en node con archivo de texto",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "base3": "node app --base=21"
+    },
+    "keywords": [
+        "Tabla",
+        "de",
+        "multiplicar"
+    ],
+    "author": "jarincon@uniquindio.edu.co",
+    "license": "MIT",
+    "dependencies": {
+        "colors": "^1.4.0",
+        "yargs": "^17.0.1"
+    }
+}
