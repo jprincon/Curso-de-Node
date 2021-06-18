@@ -3,20 +3,26 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
 class Server {
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
 
-        // Rutas de Usuarios
-        this.usuariosPath = '/api/usuarios';
+        // Rutas de la Aplicación
+        this.usuariosPath = '/api/usuario';
 
         // Middlewares: Función que siempre se ejecuta
         this.middlewares();
 
         // Rutas de la aplicación
         this.routes();
+
+        // Generar la documentación
+        this.documentacion();
     }
 
     /** ## Routes
@@ -40,8 +46,6 @@ class Server {
 
         // Generando el contenido estático
         this.app.use(express.static('public'));
-
-
     }
 
     /** ## Listen
@@ -53,6 +57,30 @@ class Server {
         this.app.listen(this.port, () => {
             console.log(`El RESTServer esta corriendo en http://localhost:${this.port}`)
         });
+    }
+
+    /** Generar la documentación con Swagger */
+    documentacion() {
+        const swaggerOptions = {
+            definition: {
+                openapi: '3.0.0',
+                info: {
+                    title: 'Documentación Node-Server',
+                    description: 'Documentación de los servicios del API Node-Server',
+                    version: '1.0.0',
+                    contact: {
+                        name: 'jarincon@uniquindio.edu.co'
+                    }
+                },
+                servers: [{
+                    url: 'http://localhost:3000'
+                }]
+            },
+            apis: ['./routes/*.js']
+        };
+
+        const swaggerDocs = swaggerJsDoc(swaggerOptions);
+        this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
     }
 }
 
